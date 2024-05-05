@@ -77,18 +77,19 @@ while True:
 
     # Accesses the max number of the user's input and compares it to the max key of the operation dictionary (sums or products). If the number is higher then call the appropriate function
     def compare_maximums(numbers, operation):
+        max_key = max(operation, default=0)
         max_number = max(numbers)
-        if max_number > max(operation, default=0):
+        if max_key < max_number:
             if operation == sums:
-                create_sums(max_number)
+                create_sums(max_key, max_number)
             elif operation == products:
                 create_products(max_number)
 
-    def create_sums(max_number):
-        counter = 1
+    def create_sums(max_key, max_number):
+        counter = max_key + 1
         while counter <= max_number:
-            sums[counter] = sum(
-                range(1, counter + 1))
+            sums[counter] = sums.get(
+                max(sums, default=1), 0) + max(sums, default=0) + 1
             counter += 1
 
     def create_products(max_number):
@@ -139,3 +140,5 @@ while True:
             break
         else:
             print('Error: Only an "s" or "p" is valid.')
+
+    print(sums)
