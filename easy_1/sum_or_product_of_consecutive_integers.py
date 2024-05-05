@@ -89,7 +89,7 @@ while True:
         counter = max_key + 1
         while counter <= max_number:
             sums[counter] = sums.get(
-                max(sums, default=1), 0) + max(sums, default=0) + 1
+                max(sums, default=0), 0) + max(sums, default=0) + 1
             counter += 1
 
     def create_products(max_number):
