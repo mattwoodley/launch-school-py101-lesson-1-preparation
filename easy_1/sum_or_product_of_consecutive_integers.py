@@ -68,15 +68,27 @@ def product_of_numbers(numbers):
             f'The product of the integers between 1 and {number} is {result:,}.')
 """
 
+# Create empty dictionaries for all operations
 sums = {}
 products = {}
 
+# This simply allows me to repeat the program endlessly for testing purposes
 while True:
+
+    # Accesses the max number of the user's input and compares it to the max key of the operation dictionary (sums or products). If the number is higher then call the appropriate function
+    def compare_maximums(numbers, operation):
+        max_number = max(numbers)
+        if max_number > max(operation, default=0):
+            if operation == sums:
+                create_sums(max_number)
+            elif operation == products:
+                create_products(max_number)
 
     def create_sums(max_number):
         counter = 1
         while counter <= max_number:
-            sums[counter] = sum(range(1, counter + 1))
+            sums[counter] = sum(
+                range(1, counter + 1))
             counter += 1
 
     def create_products(max_number):
@@ -87,14 +99,7 @@ while True:
             products[counter] = result
             counter += 1
 
-    def create_operation(numbers, operation):
-        max_number = max(numbers)
-        if max_number > max(operation, default=0):
-            if operation == sums:
-                create_sums(max_number)
-            elif operation == products:
-                create_products(max_number)
-
+    # Loops through list of numbers using number as a key to print the value
     def print_operation(numbers, operation):
         for number in numbers:
             if operation == 's':
@@ -104,6 +109,7 @@ while True:
                 print(
                     f'The product of the integers between 1 and {number} is {products[number]:,}.')
 
+    # Takes in a string input, converts to a list and validates into integers
     while True:
         user_input = input(
             'Please enter whole numbers greater than 0 that are separated by spaces: ').split(" ")
@@ -118,20 +124,18 @@ while True:
         else:
             print('Error: invalid input detected. Please try again.')
 
+    # Takes in a string input and invokes the appropriate function
     while True:
         sum_or_product = input(
             'Enter "s" to compute the sum of these numbers, or "p" to compute the product: ').strip().lower()
 
         if sum_or_product == 's':
-            create_operation(user_numbers, sums)
+            compare_maximums(user_numbers, sums)
             print_operation(user_numbers, sum_or_product)
             break
         elif sum_or_product == 'p':
-            create_operation(user_numbers, products)
+            compare_maximums(user_numbers, products)
             print_operation(user_numbers, sum_or_product)
             break
         else:
             print('Error: Only an "s" or "p" is valid.')
-
-    print(sums)
-    print(products)
