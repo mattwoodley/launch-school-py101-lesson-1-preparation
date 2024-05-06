@@ -69,28 +69,41 @@ def product_of_numbers(numbers):
 """
 
 # Create empty dictionaries for all operations
-sums = {}
-products = {}
+sums = []
+products = []
 
 # This simply allows me to repeat the program endlessly for testing purposes
 while True:
 
     # Accesses the max number of the user's input and compares it to the max key of the operation dictionary (sums or products). If the number is higher then call the appropriate function
     def compare_maximums(numbers, operation):
-        max_key = max(operation, default=0)
-        max_number = max(numbers)
-        if max_key < max_number:
-            if operation == sums:
-                create_sums(max_key, max_number)
-            elif operation == products:
-                create_products(max_number)
+        max_number = numbers[-1]
 
-    def create_sums(max_key, max_number):
-        counter = max_key + 1
+        if sums:
+            last_index = len(sums) - 1
+        else:
+            last_index = 0
+
+        if operation == sums:
+            if sums == []:
+                create_sums(max_number)
+            elif last_index < max_number and sums:
+                update_sums(last_index, max_number)
+
+        elif operation == products:
+            create_products(max_number)
+
+    def create_sums(max_number):
+        counter = 0
         while counter <= max_number:
-            sums[counter] = sums.get(
-                max(sums, default=0), 0) + max(sums, default=0) + 1
+            sums.append(sum(range(1, counter + 1)))
             counter += 1
+
+    def update_sums(last_index, max_number):
+        while last_index < max_number:
+            sums.append(sums[last_index] +
+                        sums.index(sums[last_index]) + 1)
+            last_index += 1
 
     def create_products(max_number):
         counter = 1
@@ -115,8 +128,8 @@ while True:
         user_input = input(
             'Please enter whole numbers greater than 0 that are separated by spaces: ').split(" ")
 
-        user_numbers = [int(number)
-                        for number in user_input if number.isdigit() and int(number) > 0]
+        user_numbers = sorted([int(number)
+                               for number in user_input if number.isdigit() and int(number) > 0])
 
         if user_numbers:
             print(
