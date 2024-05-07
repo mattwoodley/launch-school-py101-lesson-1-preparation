@@ -68,34 +68,34 @@ def product_of_numbers(numbers):
             f'The product of the integers between 1 and {number} is {result:,}.')
 """
 
-# Create empty dictionaries for all operations
-sums = []
+# Create lists for all operations
+sums = [0]
 products = [0]
 
-# This simply allows me to repeat the program endlessly for testing purposes
+# while True keeps the program running once activated in the terminal
 while True:
 
-    # Accesses the max number of the user's input and compares it to the max key of the operation dictionary (sums or products). If the number is higher then call the appropriate function
-    def compare_maximums(numbers, operation):
-        max_number = numbers[-1]
-
-        if operation == sums:
-            if sums == []:
+    # operation parameter checks which function to invoke
+    # checks whether list has been operated on previously
+    # if not then invoke create_operation(max_number)
+    # if it has then check (max_number > last_index of list)
+    # if True then update_operation(max_number)
+    def create_or_update(operation, max_number):
+        if operation == 's':
+            if len(sums) == 1:
                 create_sums(max_number)
-            elif sums and max_number > len(sums) - 1:
+            elif len(sums) > 1 and max_number > len(sums) - 1:
                 update_sums(max_number)
 
-        if operation == products:
+        if operation == 'p':
             if len(products) == 1:
                 create_products(max_number)
             elif len(products) > 1 and max_number > len(products) - 1:
                 update_products(max_number)
 
     def create_sums(max_number):
-        counter = 0
-        while counter <= max_number:
-            sums.append(sum(range(1, counter + 1)))
-            counter += 1
+        for number in range(1, max_number + 1):
+            sums.append(sum(range(1, number + 1)))
 
     def update_sums(max_number):
         last_index = sums.index(sums[-1])
@@ -104,12 +104,10 @@ while True:
                         sums.index(sums[-1]) + 1)
 
     def create_products(max_number):
-        counter = 1
         result = 1
-        while counter <= max_number:
-            result *= counter
+        for number in range(1, max_number + 1):
+            result *= number
             products.append(result)
-            counter += 1
 
     def update_products(max_number):
         last_index = products.index(products[-1])
@@ -126,7 +124,7 @@ while True:
                 print(
                     f'The product of the integers between 1 and {number} is {products[number]:,}.')
 
-    # Takes in a string input, converts to a list and validates into integers
+    # input a string, convert to list and validate into sorted integers
     while True:
         user_input = input(
             'Please enter whole numbers greater than 0 that are separated by spaces: ').split(" ")
@@ -141,17 +139,19 @@ while True:
         else:
             print('Error: invalid input detected. Please try again.')
 
-    # Takes in a string input and invokes the appropriate function
+    # input a string to determine which function to invoke
+    # create variable of largest number and pass into create_or_update()
     while True:
         sum_or_product = input(
-            'Enter "s" to compute the sum of these numbers, or "p" to compute the product: ').strip().lower()
+            'Enter "s" to compute the sum of your numbers, or "p" to compute the product: ').strip().lower()
+        max_number = user_numbers[-1]
 
         if sum_or_product == 's':
-            compare_maximums(user_numbers, sums)
+            create_or_update('s', max_number)
             print_operation(user_numbers, sum_or_product)
             break
         elif sum_or_product == 'p':
-            compare_maximums(user_numbers, products)
+            create_or_update('p', max_number)
             print_operation(user_numbers, sum_or_product)
             break
         else:
