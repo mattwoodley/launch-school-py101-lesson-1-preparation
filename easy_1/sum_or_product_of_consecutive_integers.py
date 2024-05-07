@@ -70,7 +70,7 @@ def product_of_numbers(numbers):
 
 # Create empty dictionaries for all operations
 sums = []
-products = []
+products = [0]
 
 # This simply allows me to repeat the program endlessly for testing purposes
 while True:
@@ -79,19 +79,17 @@ while True:
     def compare_maximums(numbers, operation):
         max_number = numbers[-1]
 
-        if sums:
-            last_index = len(sums) - 1
-        else:
-            last_index = 0
-
         if operation == sums:
             if sums == []:
                 create_sums(max_number)
-            elif last_index < max_number and sums:
-                update_sums(last_index, max_number)
+            elif sums and max_number > len(sums) - 1:
+                update_sums(max_number)
 
-        elif operation == products:
-            create_products(max_number)
+        if operation == products:
+            if len(products) == 1:
+                create_products(max_number)
+            elif len(products) > 1 and max_number > len(products) - 1:
+                update_products(max_number)
 
     def create_sums(max_number):
         counter = 0
@@ -99,21 +97,26 @@ while True:
             sums.append(sum(range(1, counter + 1)))
             counter += 1
 
-    def update_sums(last_index, max_number):
-        while last_index < max_number:
-            sums.append(sums[last_index] +
-                        sums.index(sums[last_index]) + 1)
-            last_index += 1
+    def update_sums(max_number):
+        last_index = sums.index(sums[-1])
+        for number in range(last_index, max_number):
+            sums.append(sums[-1] +
+                        sums.index(sums[-1]) + 1)
 
     def create_products(max_number):
         counter = 1
         result = 1
         while counter <= max_number:
             result *= counter
-            products[counter] = result
+            products.append(result)
             counter += 1
 
-    # Loops through list of numbers using number as a key to print the value
+    def update_products(max_number):
+        last_index = products.index(products[-1])
+        for number in range(last_index, max_number):
+            products.append(products[-1] *
+                            (products.index(products[-1]) + 1))
+
     def print_operation(numbers, operation):
         for number in numbers:
             if operation == 's':
@@ -155,3 +158,4 @@ while True:
             print('Error: Only an "s" or "p" is valid.')
 
     print(sums)
+    print(products)
