@@ -1,16 +1,9 @@
 # Write a function that takes one argument, a positive integer, and returns a string of alternating '1's and '0's, always starting with a '1'. The length of the string should match the given integer.
 
-def stringy(integer):
+def stringy(size):
     result = ""
-    binary_bool = True
-
-    while len(result) < integer:
-        if binary_bool:
-            result += "1"
-            binary_bool = False
-        else:
-            result += "0"
-            binary_bool = True
+    for parity in range(size):
+        result += "1" if parity % 2 == 0 else "0"
 
     return result
 
