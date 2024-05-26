@@ -99,7 +99,7 @@ while True:
 
     def update_sums(max_number):
         last_index = sums.index(sums[-1])
-        for number in range(last_index, max_number):
+        for _ in range(last_index, max_number):
             sums.append(sums[-1] +
                         sums.index(sums[-1]) + 1)
 
@@ -111,7 +111,7 @@ while True:
 
     def update_products(max_number):
         last_index = products.index(products[-1])
-        for number in range(last_index, max_number):
+        for _ in range(last_index, max_number):
             products.append(products[-1] *
                             (products.index(products[-1]) + 1))
 
